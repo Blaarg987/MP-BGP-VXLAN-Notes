@@ -1,7 +1,7 @@
 
 !Command: show running-config
-!Running configuration last done at: Sun Jun 14 22:36:18 2026
-!Time: Sun Jun 14 22:36:21 2026
+!Running configuration last done at: Mon Jun 29 00:34:25 2026
+!Time: Mon Jun 29 00:34:26 2026
 
 version 10.5(1) Bios:version  
 hostname Spine1
@@ -12,14 +12,18 @@ vdc Spine1 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+nv overlay evpn
 feature bgp
+feature vn-segment-vlan-based
 feature lldp
+feature nv overlay
 
 no password strength-check
 username admin password 5 $5$IMBAGC$Rmb8NTMFu305RbVeGXz/oVZzYQfDUYfnBQPSqMr61x/  role network-admin
 username cisco password 5 $5$CCGEJO$Nh9ktPQN9EQACLnv69WGpU5ML3ut4uZIVcd64e09ioA  role network-admin
 username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
 ip domain-lookup
+copp profile strict
 snmp-server user admin network-admin auth md5 014320909FB8913F406DE89B3E9D20D7D59E priv aes-128 207E39DA90417DB8EAAE3E57E558FF28594D localizedV2key
 snmp-server user cisco network-admin auth md5 01461BF6F87F59A4CCF4735FAA04B069064F priv aes-128 043E7D92C3EBC0347227A2C92C9E38E492DC localizedV2key
 rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
@@ -187,11 +191,17 @@ router bgp 65100
   address-family ipv4 unicast
     network 10.0.0.1/32
     maximum-paths 2
+  address-family l2vpn evpn
+    retain route-target all
   neighbor 10.1.1.2
     remote-as 65001
     address-family ipv4 unicast
+    address-family l2vpn evpn
+      send-community extended
   neighbor 10.1.2.2
     remote-as 65002
     address-family ipv4 unicast
+    address-family l2vpn evpn
+      send-community extended
 
 no logging console

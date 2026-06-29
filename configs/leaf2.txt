@@ -1,7 +1,7 @@
 
 !Command: show running-config
-!Running configuration last done at: Sun Jun 14 22:37:07 2026
-!Time: Sun Jun 14 22:37:15 2026
+!Running configuration last done at: Mon Jun 29 00:33:43 2026
+!Time: Mon Jun 29 00:33:47 2026
 
 version 10.5(1) Bios:version  
 hostname Leaf2
@@ -12,14 +12,18 @@ vdc Leaf2 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+nv overlay evpn
 feature bgp
+feature vn-segment-vlan-based
 feature lldp
+feature nv overlay
 
 no password strength-check
 username admin password 5 $5$HNOONI$xAVSprwOc1nsT4HK2OhlIEaRxPcY0BBxdD.3WCfpeIC  role network-admin
 username cisco password 5 $5$NEKNJK$UoVAtpszSXqYguLGpedvEahEVQT0D96nOeCDT5Yyq48  role network-admin
 username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
 ip domain-lookup
+copp profile strict
 snmp-server user admin network-admin auth md5 320953BCE4C77E2CFA7823AE6B776708FF80 priv aes-128 016672C5DFAF0E2CD97D32AA7C7F723CE797 localizedV2key
 snmp-server user cisco network-admin auth md5 175934A3FC2A9D9C559AF33ABABFA3B47E52 priv aes-128 057F7DC2BEEE511BF5257EB33979600FC0E5 localizedV2key
 rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
@@ -28,11 +32,21 @@ rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
 rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
 rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
 
-vlan 1
+vlan 1,10
+vlan 10
+  name overlay_vni10010
+  vn-segment 10010
 
 vrf context management
   ip name-server 192.168.50.1
   ip route 0.0.0.0/0 192.168.50.1
+
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback1
+  member vni 10010
+    ingress-replication protocol bgp
 
 interface Ethernet1/1
   no switchport
@@ -45,6 +59,8 @@ interface Ethernet1/2
   no shutdown
 
 interface Ethernet1/3
+  switchport access vlan 10
+  spanning-tree port type edge
 
 interface Ethernet1/4
 
@@ -171,9 +187,13 @@ interface Ethernet1/64
 interface mgmt0
   vrf member management
   ip address dhcp
+  ip address 192.168.50.22 255.255.255.0
 
 interface loopback0
   ip address 10.0.0.12/32
+
+interface loopback1
+  ip address 10.0.0.102/32
 icam monitor scale
 
 line console
@@ -186,12 +206,23 @@ router bgp 65002
   bestpath as-path multipath-relax
   address-family ipv4 unicast
     network 10.0.0.12/32
+    network 10.0.0.102/32
     maximum-paths 2
+  address-family l2vpn evpn
   neighbor 10.1.2.1
     remote-as 65100
     address-family ipv4 unicast
+    address-family l2vpn evpn
+      send-community extended
   neighbor 10.1.4.1
     remote-as 65101
     address-family ipv4 unicast
+    address-family l2vpn evpn
+      send-community extended
+evpn
+  vni 10010 l2
+    rd auto
+    route-target import 65000:10010
+    route-target export 65000:10010
 
 no logging console

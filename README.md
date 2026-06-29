@@ -10,8 +10,8 @@ end-to-end by configuring every device by hand.
 
 - [x] Phase 0: BGP refresher on NX-OS
 - [x] Phase 1: Underlay eBGP fabric with ECMP across spines
-- [ ] Phase 2: Activate L2VPN EVPN address family on existing BGP sessions
-- [ ] Phase 3: L2 VXLAN with EVPN type-2 routes, hosts in same VNI
+- [X] Phase 2: Activate L2VPN EVPN address family on existing BGP sessions
+- [x] Phase 3: L2 VXLAN with EVPN type-2 routes, hosts in same VNI
 - [ ] Phase 4: Asymmetric IRB for inter-VNI L3
 - [ ] Phase 5: Symmetric IRB with transit VNI (production model)
 
@@ -99,6 +99,65 @@ spines have different ASNs (e.g., `65100 65001` vs `65101 65001`), so
 BGP installs only one path and you silently lose half your fabric
 bandwidth. The `multipath-relax` command tells BGP to compare AS_PATH
 *length* only, not content. Required on every device.
+
+## Phase 2 Notes: Multi-Address-Family BGP
+
+Phase 2 activates the L2VPN EVPN address family on the existing eBGP
+sessions without creating new sessions. The same TCP/179 connection
+now carries both IPv4 unicast NLRI (underlay loopback routes) and
+L2VPN EVPN NLRI (overlay MAC/IP reachability), simultaneously. This
+is the multi-protocol BGP capability defined in RFC 4760.
+
+After activation, EVPN tables are empty (PfxRcd=0 on all neighbors)
+because no VTEPs are configured yet. The control plane is *capable*
+of distributing EVPN routes but has nothing to distribute. Phase 3
+configures VTEPs and the first EVPN routes appear.
+
+Key configuration additions per device:
+
+- `nv overlay evpn` — enables the EVPN feature subsystem
+- `feature nv overlay` — enables VXLAN (used in Phase 3)
+- `feature vn-segment-vlan-based` — enables VLAN-to-VNI mapping
+- `address-family l2vpn evpn` (global, under `router bgp`)
+- `address-family l2vpn evpn` (per-neighbor) — activates EVPN AF
+  on that specific session
+- `send-community extended` — required for EVPN; route targets
+  ride as BGP extended communities
+
+The `send-community extended` step is a common trap. Without it,
+sessions establish with the EVPN AF negotiated, but route targets
+aren't transmitted, and no VNI memberships are properly signaled.
+EVPN appears broken with no obvious error.
+
+
+
+## Phase 3a Lesson: Spine-as-Transit Configuration
+
+In a per-device-ASN EVPN fabric, spines are pure transit and don't
+participate in any VNI. They never import any route target. By default,
+BGP discards EVPN routes whose RTs don't match any locally-imported
+RT — so without intervention, spines would drop every EVPN route they
+receive and fail as transit speakers.
+
+Required on every spine:
+
+router bgp <asn>
+  address-family l2vpn evpn
+    retain route-target all
+
+This tells the spine "retain every EVPN route regardless of RT,
+because you're transit, not a destination." The spine holds the
+routes in its RIB and forwards them onward to other peers, even
+though it never installs them into any local L2/L3 forwarding table.
+
+This is analogous to how an MPLS transit P router doesn't need to
+participate in customer VRFs to carry VPN traffic.
+
+
+## Phase 3b Lesson: Host-to-Host L2 & L3 Reachability
+
+Finished this but I still need to write the notes up.
+
 
 ## Repository Contents
 

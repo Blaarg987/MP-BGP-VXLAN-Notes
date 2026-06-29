@@ -110,7 +110,206 @@ annotations:
 smart_annotations: []
 nodes:
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: nxos_config.txt
+        content: |2-
+
+          !Command: show running-config
+          !Running configuration last done at: Sun Jun 14 22:37:14 2026
+          !Time: Sun Jun 14 22:37:18 2026
+
+          version 10.5(1) Bios:version
+          hostname Leaf1
+          vdc Leaf1 id 1
+            limit-resource vlan minimum 16 maximum 4094
+            limit-resource vrf minimum 2 maximum 4096
+            limit-resource port-channel minimum 0 maximum 511
+            limit-resource m4route-mem minimum 58 maximum 58
+            limit-resource m6route-mem minimum 8 maximum 8
+
+          feature bgp
+          feature lldp
+
+          username admin password 5 $5$DFNNEI$YHqVG034nPVDMPNChlExATO/HfN1/YgCZPuKocIfDr/  role network-admin
+          username cisco password 5 $5$DDAHBG$7WCDJyo52RkErMOXyc5HC6Y1JjGjQpsyFwQAeAJbuq6  role network-admin
+          username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
+          ip domain-lookup
+          copp profile strict
+          snmp-server user admin network-admin auth md5 041B6AF527DF57E446B8BA3E353A4F39FE1C priv aes-128 056A2DA25EBD50A64193BD2D72771055B913 localizedV2key
+          snmp-server user cisco network-admin auth md5 5227AEBB30C60CF36E7D9CED10AABB4D3E91 priv aes-128 056EACAD1C857E9B505D9A8654A3BC6529DA localizedV2key
+          rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+          rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+          rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+          rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+          rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+          vlan 1
+
+          vrf context management
+            ip name-server 192.168.50.1
+            ip route 0.0.0.0/0 192.168.50.1
+
+          interface Ethernet1/1
+            no switchport
+            ip address 10.1.1.2/30
+            no shutdown
+
+          interface Ethernet1/2
+            no switchport
+            ip address 10.1.3.2/30
+            no shutdown
+
+          interface Ethernet1/3
+
+          interface Ethernet1/4
+
+          interface Ethernet1/5
+
+          interface Ethernet1/6
+
+          interface Ethernet1/7
+
+          interface Ethernet1/8
+
+          interface Ethernet1/9
+
+          interface Ethernet1/10
+
+          interface Ethernet1/11
+
+          interface Ethernet1/12
+
+          interface Ethernet1/13
+
+          interface Ethernet1/14
+
+          interface Ethernet1/15
+
+          interface Ethernet1/16
+
+          interface Ethernet1/17
+
+          interface Ethernet1/18
+
+          interface Ethernet1/19
+
+          interface Ethernet1/20
+
+          interface Ethernet1/21
+
+          interface Ethernet1/22
+
+          interface Ethernet1/23
+
+          interface Ethernet1/24
+
+          interface Ethernet1/25
+
+          interface Ethernet1/26
+
+          interface Ethernet1/27
+
+          interface Ethernet1/28
+
+          interface Ethernet1/29
+
+          interface Ethernet1/30
+
+          interface Ethernet1/31
+
+          interface Ethernet1/32
+
+          interface Ethernet1/33
+
+          interface Ethernet1/34
+
+          interface Ethernet1/35
+
+          interface Ethernet1/36
+
+          interface Ethernet1/37
+
+          interface Ethernet1/38
+
+          interface Ethernet1/39
+
+          interface Ethernet1/40
+
+          interface Ethernet1/41
+
+          interface Ethernet1/42
+
+          interface Ethernet1/43
+
+          interface Ethernet1/44
+
+          interface Ethernet1/45
+
+          interface Ethernet1/46
+
+          interface Ethernet1/47
+
+          interface Ethernet1/48
+
+          interface Ethernet1/49
+
+          interface Ethernet1/50
+
+          interface Ethernet1/51
+
+          interface Ethernet1/52
+
+          interface Ethernet1/53
+
+          interface Ethernet1/54
+
+          interface Ethernet1/55
+
+          interface Ethernet1/56
+
+          interface Ethernet1/57
+
+          interface Ethernet1/58
+
+          interface Ethernet1/59
+
+          interface Ethernet1/60
+
+          interface Ethernet1/61
+
+          interface Ethernet1/62
+
+          interface Ethernet1/63
+
+          interface Ethernet1/64
+
+          interface mgmt0
+            vrf member management
+            ip address dhcp
+
+          interface loopback0
+            ip address 10.0.0.11/32
+          icam monitor scale
+
+          line console
+            exec-timeout 0
+          line vty
+            exec-timeout 0
+          boot nxos bootflash:/nxos64-cs.10.5.1.F.bin
+          router bgp 65001
+            router-id 10.0.0.11
+            bestpath as-path multipath-relax
+            address-family ipv4 unicast
+              network 10.0.0.11/32
+              maximum-paths 2
+            neighbor 10.1.1.1
+              remote-as 65100
+              address-family ipv4 unicast
+            neighbor 10.1.3.1
+              remote-as 65101
+              address-family ipv4 unicast
+
+          no logging console
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -175,7 +374,206 @@ nodes:
         type: physical
         slot: 7
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: nxos_config.txt
+        content: |2-
+
+          !Command: show running-config
+          !Running configuration last done at: Sun Jun 14 22:37:07 2026
+          !Time: Sun Jun 14 22:37:15 2026
+
+          version 10.5(1) Bios:version
+          hostname Leaf2
+          vdc Leaf2 id 1
+            limit-resource vlan minimum 16 maximum 4094
+            limit-resource vrf minimum 2 maximum 4096
+            limit-resource port-channel minimum 0 maximum 511
+            limit-resource m4route-mem minimum 58 maximum 58
+            limit-resource m6route-mem minimum 8 maximum 8
+
+          feature bgp
+          feature lldp
+
+          no password strength-check
+          username admin password 5 $5$HNOONI$xAVSprwOc1nsT4HK2OhlIEaRxPcY0BBxdD.3WCfpeIC  role network-admin
+          username cisco password 5 $5$NEKNJK$UoVAtpszSXqYguLGpedvEahEVQT0D96nOeCDT5Yyq48  role network-admin
+          username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
+          ip domain-lookup
+          snmp-server user admin network-admin auth md5 320953BCE4C77E2CFA7823AE6B776708FF80 priv aes-128 016672C5DFAF0E2CD97D32AA7C7F723CE797 localizedV2key
+          snmp-server user cisco network-admin auth md5 175934A3FC2A9D9C559AF33ABABFA3B47E52 priv aes-128 057F7DC2BEEE511BF5257EB33979600FC0E5 localizedV2key
+          rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+          rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+          rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+          rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+          rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+          vlan 1
+
+          vrf context management
+            ip name-server 192.168.50.1
+            ip route 0.0.0.0/0 192.168.50.1
+
+          interface Ethernet1/1
+            no switchport
+            ip address 10.1.2.2/30
+            no shutdown
+
+          interface Ethernet1/2
+            no switchport
+            ip address 10.1.4.2/30
+            no shutdown
+
+          interface Ethernet1/3
+
+          interface Ethernet1/4
+
+          interface Ethernet1/5
+
+          interface Ethernet1/6
+
+          interface Ethernet1/7
+
+          interface Ethernet1/8
+
+          interface Ethernet1/9
+
+          interface Ethernet1/10
+
+          interface Ethernet1/11
+
+          interface Ethernet1/12
+
+          interface Ethernet1/13
+
+          interface Ethernet1/14
+
+          interface Ethernet1/15
+
+          interface Ethernet1/16
+
+          interface Ethernet1/17
+
+          interface Ethernet1/18
+
+          interface Ethernet1/19
+
+          interface Ethernet1/20
+
+          interface Ethernet1/21
+
+          interface Ethernet1/22
+
+          interface Ethernet1/23
+
+          interface Ethernet1/24
+
+          interface Ethernet1/25
+
+          interface Ethernet1/26
+
+          interface Ethernet1/27
+
+          interface Ethernet1/28
+
+          interface Ethernet1/29
+
+          interface Ethernet1/30
+
+          interface Ethernet1/31
+
+          interface Ethernet1/32
+
+          interface Ethernet1/33
+
+          interface Ethernet1/34
+
+          interface Ethernet1/35
+
+          interface Ethernet1/36
+
+          interface Ethernet1/37
+
+          interface Ethernet1/38
+
+          interface Ethernet1/39
+
+          interface Ethernet1/40
+
+          interface Ethernet1/41
+
+          interface Ethernet1/42
+
+          interface Ethernet1/43
+
+          interface Ethernet1/44
+
+          interface Ethernet1/45
+
+          interface Ethernet1/46
+
+          interface Ethernet1/47
+
+          interface Ethernet1/48
+
+          interface Ethernet1/49
+
+          interface Ethernet1/50
+
+          interface Ethernet1/51
+
+          interface Ethernet1/52
+
+          interface Ethernet1/53
+
+          interface Ethernet1/54
+
+          interface Ethernet1/55
+
+          interface Ethernet1/56
+
+          interface Ethernet1/57
+
+          interface Ethernet1/58
+
+          interface Ethernet1/59
+
+          interface Ethernet1/60
+
+          interface Ethernet1/61
+
+          interface Ethernet1/62
+
+          interface Ethernet1/63
+
+          interface Ethernet1/64
+
+          interface mgmt0
+            vrf member management
+            ip address dhcp
+
+          interface loopback0
+            ip address 10.0.0.12/32
+          icam monitor scale
+
+          line console
+            exec-timeout 0
+          line vty
+            exec-timeout 0
+          boot nxos bootflash:/nxos64-cs.10.5.1.F.bin
+          router bgp 65002
+            router-id 10.0.0.12
+            bestpath as-path multipath-relax
+            address-family ipv4 unicast
+              network 10.0.0.12/32
+              maximum-paths 2
+            neighbor 10.1.2.1
+              remote-as 65100
+              address-family ipv4 unicast
+            neighbor 10.1.4.1
+              remote-as 65101
+              address-family ipv4 unicast
+
+          no logging console
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -240,7 +638,206 @@ nodes:
         type: physical
         slot: 7
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: nxos_config.txt
+        content: |2-
+
+          !Command: show running-config
+          !Running configuration last done at: Sun Jun 14 22:36:18 2026
+          !Time: Sun Jun 14 22:36:21 2026
+
+          version 10.5(1) Bios:version
+          hostname Spine1
+          vdc Spine1 id 1
+            limit-resource vlan minimum 16 maximum 4094
+            limit-resource vrf minimum 2 maximum 4096
+            limit-resource port-channel minimum 0 maximum 511
+            limit-resource m4route-mem minimum 58 maximum 58
+            limit-resource m6route-mem minimum 8 maximum 8
+
+          feature bgp
+          feature lldp
+
+          no password strength-check
+          username admin password 5 $5$IMBAGC$Rmb8NTMFu305RbVeGXz/oVZzYQfDUYfnBQPSqMr61x/  role network-admin
+          username cisco password 5 $5$CCGEJO$Nh9ktPQN9EQACLnv69WGpU5ML3ut4uZIVcd64e09ioA  role network-admin
+          username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
+          ip domain-lookup
+          snmp-server user admin network-admin auth md5 014320909FB8913F406DE89B3E9D20D7D59E priv aes-128 207E39DA90417DB8EAAE3E57E558FF28594D localizedV2key
+          snmp-server user cisco network-admin auth md5 01461BF6F87F59A4CCF4735FAA04B069064F priv aes-128 043E7D92C3EBC0347227A2C92C9E38E492DC localizedV2key
+          rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+          rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+          rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+          rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+          rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+          vlan 1
+
+          vrf context management
+            ip name-server 192.168.50.1
+            ip route 0.0.0.0/0 192.168.50.1
+
+          interface Ethernet1/1
+            no switchport
+            ip address 10.1.1.1/30
+            no shutdown
+
+          interface Ethernet1/2
+            no switchport
+            ip address 10.1.2.1/30
+            no shutdown
+
+          interface Ethernet1/3
+
+          interface Ethernet1/4
+
+          interface Ethernet1/5
+
+          interface Ethernet1/6
+
+          interface Ethernet1/7
+
+          interface Ethernet1/8
+
+          interface Ethernet1/9
+
+          interface Ethernet1/10
+
+          interface Ethernet1/11
+
+          interface Ethernet1/12
+
+          interface Ethernet1/13
+
+          interface Ethernet1/14
+
+          interface Ethernet1/15
+
+          interface Ethernet1/16
+
+          interface Ethernet1/17
+
+          interface Ethernet1/18
+
+          interface Ethernet1/19
+
+          interface Ethernet1/20
+
+          interface Ethernet1/21
+
+          interface Ethernet1/22
+
+          interface Ethernet1/23
+
+          interface Ethernet1/24
+
+          interface Ethernet1/25
+
+          interface Ethernet1/26
+
+          interface Ethernet1/27
+
+          interface Ethernet1/28
+
+          interface Ethernet1/29
+
+          interface Ethernet1/30
+
+          interface Ethernet1/31
+
+          interface Ethernet1/32
+
+          interface Ethernet1/33
+
+          interface Ethernet1/34
+
+          interface Ethernet1/35
+
+          interface Ethernet1/36
+
+          interface Ethernet1/37
+
+          interface Ethernet1/38
+
+          interface Ethernet1/39
+
+          interface Ethernet1/40
+
+          interface Ethernet1/41
+
+          interface Ethernet1/42
+
+          interface Ethernet1/43
+
+          interface Ethernet1/44
+
+          interface Ethernet1/45
+
+          interface Ethernet1/46
+
+          interface Ethernet1/47
+
+          interface Ethernet1/48
+
+          interface Ethernet1/49
+
+          interface Ethernet1/50
+
+          interface Ethernet1/51
+
+          interface Ethernet1/52
+
+          interface Ethernet1/53
+
+          interface Ethernet1/54
+
+          interface Ethernet1/55
+
+          interface Ethernet1/56
+
+          interface Ethernet1/57
+
+          interface Ethernet1/58
+
+          interface Ethernet1/59
+
+          interface Ethernet1/60
+
+          interface Ethernet1/61
+
+          interface Ethernet1/62
+
+          interface Ethernet1/63
+
+          interface Ethernet1/64
+
+          interface mgmt0
+            vrf member management
+            ip address dhcp
+
+          interface loopback0
+            ip address 10.0.0.1/32
+          icam monitor scale
+
+          line console
+            exec-timeout 0
+          line vty
+            exec-timeout 0
+          boot nxos bootflash:/nxos64-cs.10.5.1.F.bin
+          router bgp 65100
+            router-id 10.0.0.1
+            bestpath as-path multipath-relax
+            address-family ipv4 unicast
+              network 10.0.0.1/32
+              maximum-paths 2
+            neighbor 10.1.1.2
+              remote-as 65001
+              address-family ipv4 unicast
+            neighbor 10.1.2.2
+              remote-as 65002
+              address-family ipv4 unicast
+
+          no logging console
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -305,7 +902,207 @@ nodes:
         type: physical
         slot: 7
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: nxos_config.txt
+        content: |2-
+
+          !Command: show running-config
+          !Running configuration last done at: Sun Jun 14 22:37:24 2026
+          !Time: Sun Jun 14 22:37:26 2026
+
+          version 10.5(1) Bios:version
+          hostname Spine2
+          vdc Spine2 id 1
+            limit-resource vlan minimum 16 maximum 4094
+            limit-resource vrf minimum 2 maximum 4096
+            limit-resource port-channel minimum 0 maximum 511
+            limit-resource m4route-mem minimum 58 maximum 58
+            limit-resource m6route-mem minimum 8 maximum 8
+
+          feature bgp
+          feature lldp
+
+          no password strength-check
+          username admin password 5 $5$JLJPEG$T9bV2n2AMkKR7zaoVLFm6xZoAY49GDvS7lJ8FlXrcR9  role network-admin
+          username cisco password 5 $5$NGGKIJ$9uosENdHmCA9EG1PIzTpx18DpRjx.NwCsmI.NqYQVk/  role network-admin
+          username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
+          ip domain-lookup
+          copp profile strict
+          snmp-server user admin network-admin auth md5 37570FE11A6A8BB1E4ACC1BFD7520E785F1C priv aes-128 523740F35034D8B9BDFF9A95C01A00390D0F localizedV2key
+          snmp-server user cisco network-admin auth md5 041B12AD0C419AF4ACF0C6DA85425E68732F priv aes-128 165E2C971A80630E1155271958939CA7C4C9 localizedV2key
+          rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+          rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+          rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+          rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+          rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+          vlan 1
+
+          vrf context management
+            ip name-server 192.168.50.1
+            ip route 0.0.0.0/0 192.168.50.1
+
+          interface Ethernet1/1
+            no switchport
+            ip address 10.1.3.1/30
+            no shutdown
+
+          interface Ethernet1/2
+            no switchport
+            ip address 10.1.4.1/30
+            no shutdown
+
+          interface Ethernet1/3
+
+          interface Ethernet1/4
+
+          interface Ethernet1/5
+
+          interface Ethernet1/6
+
+          interface Ethernet1/7
+
+          interface Ethernet1/8
+
+          interface Ethernet1/9
+
+          interface Ethernet1/10
+
+          interface Ethernet1/11
+
+          interface Ethernet1/12
+
+          interface Ethernet1/13
+
+          interface Ethernet1/14
+
+          interface Ethernet1/15
+
+          interface Ethernet1/16
+
+          interface Ethernet1/17
+
+          interface Ethernet1/18
+
+          interface Ethernet1/19
+
+          interface Ethernet1/20
+
+          interface Ethernet1/21
+
+          interface Ethernet1/22
+
+          interface Ethernet1/23
+
+          interface Ethernet1/24
+
+          interface Ethernet1/25
+
+          interface Ethernet1/26
+
+          interface Ethernet1/27
+
+          interface Ethernet1/28
+
+          interface Ethernet1/29
+
+          interface Ethernet1/30
+
+          interface Ethernet1/31
+
+          interface Ethernet1/32
+
+          interface Ethernet1/33
+
+          interface Ethernet1/34
+
+          interface Ethernet1/35
+
+          interface Ethernet1/36
+
+          interface Ethernet1/37
+
+          interface Ethernet1/38
+
+          interface Ethernet1/39
+
+          interface Ethernet1/40
+
+          interface Ethernet1/41
+
+          interface Ethernet1/42
+
+          interface Ethernet1/43
+
+          interface Ethernet1/44
+
+          interface Ethernet1/45
+
+          interface Ethernet1/46
+
+          interface Ethernet1/47
+
+          interface Ethernet1/48
+
+          interface Ethernet1/49
+
+          interface Ethernet1/50
+
+          interface Ethernet1/51
+
+          interface Ethernet1/52
+
+          interface Ethernet1/53
+
+          interface Ethernet1/54
+
+          interface Ethernet1/55
+
+          interface Ethernet1/56
+
+          interface Ethernet1/57
+
+          interface Ethernet1/58
+
+          interface Ethernet1/59
+
+          interface Ethernet1/60
+
+          interface Ethernet1/61
+
+          interface Ethernet1/62
+
+          interface Ethernet1/63
+
+          interface Ethernet1/64
+
+          interface mgmt0
+            vrf member management
+            ip address dhcp
+
+          interface loopback0
+            ip address 10.0.0.2/32
+          icam monitor scale
+
+          line console
+            exec-timeout 0
+          line vty
+            exec-timeout 0
+          boot nxos bootflash:/nxos64-cs.10.5.1.F.bin
+          router bgp 65101
+            router-id 10.0.0.2
+            bestpath as-path multipath-relax
+            address-family ipv4 unicast
+              network 10.0.0.2/32
+              maximum-paths 2
+            neighbor 10.1.3.2
+              remote-as 65001
+              address-family ipv4 unicast
+            neighbor 10.1.4.2
+              remote-as 65002
+              address-family ipv4 unicast
+
+          no logging console
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -370,58 +1167,6 @@ nodes:
         type: physical
         slot: 7
   - boot_disk_size: null
-    configuration: []
-    cpu_limit: null
-    cpus: null
-    data_volume: null
-    hide_links: false
-    id: n4
-    image_definition: null
-    label: ubuntu-0
-    node_definition: ubuntu
-    parameters: {}
-    priority: null
-    pyats:
-      username: null
-      password: null
-      enable_password: null
-    ram: null
-    tags: []
-    x: -280
-    y: 160
-    interfaces:
-      - id: i0
-        label: ens2
-        mac_address: null
-        type: physical
-        slot: 0
-  - boot_disk_size: null
-    configuration: []
-    cpu_limit: null
-    cpus: null
-    data_volume: null
-    hide_links: false
-    id: n5
-    image_definition: null
-    label: ubuntu-1
-    node_definition: ubuntu
-    parameters: {}
-    priority: null
-    pyats:
-      username: null
-      password: null
-      enable_password: null
-    ram: null
-    tags: []
-    x: 120
-    y: 160
-    interfaces:
-      - id: i0
-        label: ens2
-        mac_address: null
-        type: physical
-        slot: 0
-  - boot_disk_size: null
     configuration:
       - name: default
         content: System Bridge
@@ -429,7 +1174,7 @@ nodes:
     cpus: null
     data_volume: null
     hide_links: false
-    id: n6
+    id: n4
     image_definition: null
     label: ext-conn-0
     node_definition: external_connector
@@ -457,7 +1202,7 @@ nodes:
     cpus: null
     data_volume: null
     hide_links: false
-    id: n7
+    id: n5
     image_definition: null
     label: ext-conn-1
     node_definition: external_connector
@@ -485,7 +1230,7 @@ nodes:
     cpus: null
     data_volume: null
     hide_links: false
-    id: n8
+    id: n6
     image_definition: null
     label: ext-conn-2
     node_definition: external_connector
@@ -513,7 +1258,7 @@ nodes:
     cpus: null
     data_volume: null
     hide_links: false
-    id: n9
+    id: n7
     image_definition: null
     label: ext-conn-3
     node_definition: external_connector
@@ -533,30 +1278,82 @@ nodes:
         mac_address: null
         type: physical
         slot: 0
+  - boot_disk_size: null
+    configuration: []
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n8
+    image_definition: null
+    label: desktop-0
+    node_definition: desktop
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: -280
+    y: 120
+    interfaces:
+      - id: i0
+        label: eth0
+        mac_address: null
+        type: physical
+        slot: 0
+  - boot_disk_size: null
+    configuration: []
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n9
+    image_definition: null
+    label: desktop-1
+    node_definition: desktop
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: 120
+    y: 120
+    interfaces:
+      - id: i0
+        label: eth0
+        mac_address: null
+        type: physical
+        slot: 0
 links:
   - id: l0
     n1: n0
-    n2: n6
+    n2: n4
     i1: i1
     i2: i0
     conditioning: {}
     label: Leaf 1-mgmt0<->ext-conn-0-port
   - id: l1
     n1: n1
-    n2: n7
+    n2: n5
     i1: i1
     i2: i0
     conditioning: {}
     label: Leaf 2-mgmt0<->ext-conn-1-port
   - id: l2
     n1: n3
-    n2: n9
+    n2: n7
     i1: i1
     i2: i0
     conditioning: {}
     label: Spine 2-mgmt0<->ext-conn-3-port
   - id: l3
-    n1: n8
+    n1: n6
     n2: n2
     i1: i0
     i2: i1
@@ -590,6 +1387,20 @@ links:
     i2: i2
     conditioning: {}
     label: Leaf 1-Ethernet1/2<->Spine 2-Ethernet1/1
+  - id: l8
+    n1: n8
+    n2: n0
+    i1: i0
+    i2: i4
+    conditioning: {}
+    label: desktop-0-eth0<->Leaf 1-Ethernet1/3
+  - id: l9
+    n1: n9
+    n2: n1
+    i1: i0
+    i2: i4
+    conditioning: {}
+    label: desktop-1-eth0<->Leaf 2-Ethernet1/3
 lab:
   description: ''
   notes: ''
