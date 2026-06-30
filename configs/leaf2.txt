@@ -1,7 +1,7 @@
 
 !Command: show running-config
-!Running configuration last done at: Mon Jun 29 00:33:43 2026
-!Time: Mon Jun 29 00:33:47 2026
+!Running configuration last done at: Tue Jun 30 00:32:38 2026
+!Time: Tue Jun 30 00:32:40 2026
 
 version 10.5(1) Bios:version  
 hostname Leaf2
@@ -14,6 +14,7 @@ vdc Leaf2 id 1
 
 nv overlay evpn
 feature bgp
+feature interface-vlan
 feature vn-segment-vlan-based
 feature lldp
 feature nv overlay
@@ -32,14 +33,51 @@ rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
 rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
 rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
 
-vlan 1,10
+fabric forwarding anycast-gateway-mac 0000.2222.3333
+vlan 1,10,20,50
 vlan 10
   name overlay_vni10010
   vn-segment 10010
+vlan 20
+  name overlay_vni10020
+  vn-segment 10020
+vlan 50
+  name TENANT-A-L3VNI
+  vn-segment 50000
 
+route-map ALLOW permit 10
+vrf context TENANT-A
+  vni 50000
+  rd auto
+  address-family ipv4 unicast
+    route-target import 65000:50000
+    route-target import 65000:50000 evpn
+    route-target export 65000:50000
+    route-target export 65000:50000 evpn
 vrf context management
   ip name-server 192.168.50.1
   ip route 0.0.0.0/0 192.168.50.1
+
+
+interface Vlan1
+
+interface Vlan10
+  no shutdown
+  vrf member TENANT-A
+  ip address 192.168.10.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan20
+  no shutdown
+  vrf member TENANT-A
+  ip address 192.168.20.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan50
+  no shutdown
+  vrf member TENANT-A
+  no ip redirects
+  ip forward
 
 interface nve1
   no shutdown
@@ -47,6 +85,9 @@ interface nve1
   source-interface loopback1
   member vni 10010
     ingress-replication protocol bgp
+  member vni 10020
+    ingress-replication protocol bgp
+  member vni 50000 associate-vrf
 
 interface Ethernet1/1
   no switchport
@@ -59,7 +100,7 @@ interface Ethernet1/2
   no shutdown
 
 interface Ethernet1/3
-  switchport access vlan 10
+  switchport access vlan 20
   spanning-tree port type edge
 
 interface Ethernet1/4
@@ -219,10 +260,18 @@ router bgp 65002
     address-family ipv4 unicast
     address-family l2vpn evpn
       send-community extended
+  vrf TENANT-A
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      redistribute direct route-map ALLOW
 evpn
   vni 10010 l2
     rd auto
     route-target import 65000:10010
     route-target export 65000:10010
+  vni 10020 l2
+    rd auto
+    route-target import 65000:10020
+    route-target export 65000:10020
 
 no logging console

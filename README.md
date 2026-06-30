@@ -12,7 +12,7 @@ end-to-end by configuring every device by hand.
 - [x] Phase 1: Underlay eBGP fabric with ECMP across spines
 - [X] Phase 2: Activate L2VPN EVPN address family on existing BGP sessions
 - [x] Phase 3: L2 VXLAN with EVPN type-2 routes, hosts in same VNI
-- [ ] Phase 4: Asymmetric IRB for inter-VNI L3
+- [x] Phase 4: Asymmetric IRB for inter-VNI L3
 - [ ] Phase 5: Symmetric IRB with transit VNI (production model)
 
 ## Topology
@@ -154,9 +154,18 @@ This is analogous to how an MPLS transit P router doesn't need to
 participate in customer VRFs to carry VPN traffic.
 
 
-## Phase 3b Lesson: Host-to-Host L2 & L3 Reachability
+## Phase 3b Lesson: Host-to-Host L2 & L3 Reachability 
 
 Finished this but I still need to write the notes up.
+
+## Phase 4 Lesson: Asyemtric IRB
+
+BUM Traffic on the dataplane is broken in CML so the overlay cannot resolve ARP, hence asymetric IRB will not work. Check the notes.md in the notes section for more info.
+
+
+## Phase 5 Lesson: Symetric IRB
+
+Check notes section for more info.
 
 
 ## Repository Contents
